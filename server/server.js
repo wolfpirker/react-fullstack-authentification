@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
 
-const mongoUri = 'mongodb+srv://admin:testing123@cluster0.3nee9.mongodb.net/authApp?retryWrites=true&w=majority';
+//const mongoUri = 'mongodb+srv://admin:testing123@cluster0.3nee9.mongodb.net/authApp?retryWrites=true&w=majority';
+const mongoUri = 'mongodb+srv://root:<password>@cluster0.620ub.mongodb.net/authApp?retryWrites=true&w=majority'
 mongoose.connect(mongoUri,{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -20,7 +21,7 @@ const { User } = require('./models/user');
 app.post('/api/user',(req,res)=>{
     const user = new User({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.spassword
     });
     user.save((err,doc)=>{
         if(err) res.status(400).send(err);
