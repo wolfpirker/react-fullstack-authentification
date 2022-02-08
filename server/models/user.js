@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const SALT_I = 10;
 
+
 const userSchema = mongoose.Schema({
     email: {
         type: String,
@@ -32,6 +33,15 @@ userSchema.pre('save',function(next){
         next();
     }
 })
+
+// for signing in user
+userSchema.methods.comparePassword = function(candidatePassword, cb){
+    bcrypt.compare(candidatePassword,this.password,function(err, isMatch){
+        if(err) cb(err)
+        // cb: callback
+        cb(null,isMatch)
+    })
+}
 
 const User = mongoose.model('User',userSchema);
 module.exports = { User }
