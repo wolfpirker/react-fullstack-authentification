@@ -2,10 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const config = require('./config/config').get(process.env.NODE_ENV);
 const app = express();
 
-//const mongoUri = 'mongodb+srv://admin:testing123@cluster0.3nee9.mongodb.net/authApp?retryWrites=true&w=majority';
-const mongoUri = 'mongodb+srv://root:<password>@cluster0.620ub.mongodb.net/authApp?retryWrites=true&w=majority'
+const mongoUri = config.DATABASE;
+
 mongoose.connect(mongoUri,{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -24,7 +25,7 @@ const { User } = require('./models/user');
 app.post('/api/user',(req,res)=>{
     const user = new User({
         email: req.body.email,
-        password: req.body.spassword
+        password: req.body.password
     });
     user.save((err,doc)=>{
         if(err) res.status(400).send(err);
